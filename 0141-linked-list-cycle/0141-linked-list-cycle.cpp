@@ -13,7 +13,7 @@ public:
             return false;
         ListNode *slow = head;
         ListNode *fast = head->next;
-        while((slow->next!=NULL) && (fast->next!=NULL) && (fast->next->next!=NULL))
+        while((fast!=NULL) && (fast->next!=NULL))
         {
             if(slow==fast)
                 return true;
