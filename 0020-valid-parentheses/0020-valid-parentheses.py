@@ -1,22 +1,15 @@
 class Solution:
     def isValid(self, s: str) -> bool:
         stck =  []
+        mapp = {'(':')', '{':'}', '[':']'}
         
         for c in s:
-          if c in ['(','{','[']:
+          if c in mapp:
             stck.append(c)
           else:
-            if stck:
-              if ( (stck[-1] == '(' and c!=')') 
-              or (stck[-1] == '{' and c!='}') 
-              or (stck[-1] == '[' and c!=']') ):
-                return False
+            if stck and mapp[stck[-1]] == c:
               stck.pop()
             else:
               return False
-        
-        if stck:
-          return False
-        
-        return True
+        return False if stck else True
           
