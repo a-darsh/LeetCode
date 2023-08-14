@@ -7,34 +7,30 @@
 class Solution:
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
         
+        
+        def sameTree(p,q):
+          
+          if (p and not q) or (not p and q):
+            return False
+          
+          if not p and not q:
+            return True
+          
+          if p.val != q.val:
+            return False
+          
+          return sameTree(p.left, q.left) and sameTree(p.right, q.right)
+        
+        if not root and not subRoot:
+          return True
+        
         if not root:
           return False
         
-        if not subRoot:
-          return False
-        
-        if self.sameTree(root, subRoot):
+        if sameTree(root, subRoot) or self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot):
           return True
         
-        leftR = self.isSubtree(root.left, subRoot)
-        rightR = self.isSubtree(root.right, subRoot)
-        
-        return leftR or rightR
-      
-    def sameTree(self, p,q):
+        return False
           
-        if p and not q:
-          return False
-
-        if not p and q:
-          return False
-
-        if not p and not q:
-          return True
-
-        if p.val != q.val:
-          return False
-
-        return self.sameTree(p.left, q.left) and self.sameTree(p.right, q.right)
-        
+          
         
