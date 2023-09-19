@@ -1,11 +1,11 @@
 class Solution(object):
     def twoSum(self, nums, target):
         
-        hMap = {}
+        hmap = {}
         
-        for i, val in enumerate(nums):
+        for i,n in enumerate (nums):
           
-          if target-val in hMap:
-            return hMap[target-val], i
+          if (target-n) in hmap:
+            return [hmap[target-n],  i]
           
-          hMap[val] = i
+          hmap[n] = i
