@@ -4,38 +4,30 @@ class Solution:
       if not grid:
         return 0
       
-      r, c = len(grid), len(grid[0])
+      row, col = len(grid), len(grid[0])
+      visited = set()
+      count = 0
       
-      num = 0
+      def bfs(r,c):
+        queue = collections.deque()
+        queue.append((r,c))
+        while queue:
+            cr, cc = queue.pop()
+            for ir, ic in [[+1,0], [-1,0], [0,+1], [0, -1]]:
+              rn, cn = cr+ir, cc + ic
+              if (rn in range(0, row)) and (cn in range(0, col)) and (grid[rn][cn] == "1") and ((rn,cn) not in visited):
+                queue.append((rn, cn))
+                visited.add((rn,cn))
+                
+                
       
-      visit = set()
+      for r in range(row):
+        for c in range(col):
+          if (r,c) not in visited and grid[r][c] == "1":
+            bfs(r,c)
+            visited.add((r,c))
+            count += 1
+            
+      return count
+            
       
-      def dfs(row,col):
-        
-        #bounds
-        row_check = 0 <= row < r
-        col_check = 0 <= col < c
-        
-        if( not row_check or not col_check):
-          return False
-        
-        if(grid[row][col] == '0'):
-          return False
-        
-        if (row,col) not in visit:
-          visit.add((row,col))
-          dfs(row-1,col)
-          dfs(row+1, col)
-          dfs(row, col-1)
-          dfs(row, col+1)
-          
-      
-      for i in range(r):
-        for j in range(c):
-          
-          if ((i,j) not in visit) and (grid[i][j] == '1'):
-            dfs(i,j)
-            num += 1
-      
-      return num
-        
