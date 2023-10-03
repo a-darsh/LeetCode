@@ -12,7 +12,7 @@ class Solution:
         queue = collections.deque()
         queue.append((r,c))
         while queue:
-            cr, cc = queue.popleft()
+            cr, cc = queue.pop()
             for ir, ic in [[+1,0], [-1,0], [0,+1], [0, -1]]:
               rn, cn = cr+ir, cc + ic
               if (rn in range(0, row)) and (cn in range(0, col)) and (grid[rn][cn] == "1") and ((rn,cn) not in visited):
