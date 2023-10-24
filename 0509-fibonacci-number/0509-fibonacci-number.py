@@ -1,17 +1,17 @@
 class Solution:
     def fib(self, n: int) -> int:
         
-        f = {}
+        #bottom up - bottom is 0, top is n
         
-        if n in f:
-          return f[n]
+        one , two = 0,1
         
-        if n==0:
-          f[0] = 0
-          return f[0]
+        for i in range(2, n+1):
+          
+          temp = two
+          two = one + two
+          one  = temp
         
-        if n == 1:
-          f[1] = 1
-          return f[1]
-        
-        return self.fib(n-1) + self.fib(n-2)
+        return two if n > 0 else one
+          
+          
+          
