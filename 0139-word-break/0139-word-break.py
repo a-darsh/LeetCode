@@ -1,19 +1,23 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         
-        dp = [False] * (len(s)+1)
+        memo = {}
+        def dps(s):
+          if s in memo:
+            return memo[s]
+
+          if s == "":
+            return True
+
+          for w in wordDict:
+            if s.startswith(w):
+              rem = s[len(w):]
+              print(s, rem)
+              if dps(rem):
+                memo[rem] = True
+                return True
+          
+          memo[s] = False
+          return False
         
-        #initial case
-        dp[len(s)] = True
-        
-        for i in range(len(dp)-1, -1, -1):
-          for word in wordDict:
-            
-            
-            if (i+len(word) <= len(s)) and (s[i:i+len(word)] == word):
-              dp[i] = dp[i + len(word)]
-              
-            if dp[i]:
-              break
-        print(dp)
-        return dp[0]
+        return dps(s)
