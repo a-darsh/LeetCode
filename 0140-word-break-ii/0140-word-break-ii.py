@@ -1,19 +1,30 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
         
-        ansList = []
+        memo = {}
 
-        def dps(s, ans=[]):
+        def dfs(s):
+            # If the current substring has been processed before, return the memoized result
+            if s in memo:
+                return memo[s]
 
+            # If the current substring is empty, return a list with an empty sentence
             if not s:
-                ansList.append(' '.join(ans))
-                return
+                return [""]
+
+            sentences = []
 
             for w in wordDict:
-
                 if s.startswith(w):
-                    # Attempt to move forward by taking the word
-                    dps(s[len(w):], ans + [w])
+                    # Recursive call on the remaining part of the substring after removing the word w
+                    for sentence in dfs(s[len(w):]):
+                        if sentence:
+                            sentences.append(w + " " + sentence)
+                        else:
+                            sentences.append(w)
 
-        dps(s)
-        return ansList
+            # Memoize the result for the current substring and return
+            memo[s] = sentences
+            return sentences
+
+        return dfs(s)
