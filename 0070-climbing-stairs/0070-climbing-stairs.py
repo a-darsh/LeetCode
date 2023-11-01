@@ -1,17 +1,16 @@
 class Solution:
-    def climbStairs(self, n: int) -> int:
-      one, two = 1, 1
-      
-      for i in range(n-2, -1, -1):
-        temp  = one + two
-        two = one
-        one  = temp
+    def climbStairs(self, n: int, map = {}) -> int:
         
-      return one
-          
+        if n in map:
+            return map[n]
         
+        if n==1 or n==0:
+            return 1
         
+        if n<0:
+            return 0
         
+        map[n] = self.climbStairs(n-1) + self.climbStairs(n-2)
         
-        
-        
+        return map[n]
+            
