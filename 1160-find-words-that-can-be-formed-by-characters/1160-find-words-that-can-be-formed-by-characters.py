@@ -7,7 +7,7 @@ class Solution:
                 hmap[c] += 1
             else:
                 hmap[c] = 1
-        print(hmap)
+                
         ans = 0
         for w in words:
             check=True
