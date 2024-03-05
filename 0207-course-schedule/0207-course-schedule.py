@@ -1,39 +1,31 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         
-        preq = {i:[] for i in range(numCourses)}
+        graph = {i:[] for i in range(numCourses)}
         
-        for l in prerequisites:
-          preq[l[0]].append(l[1])
-          
-        visited  = set()
+        for i,j in prerequisites:
+            graph[i].append(j)
         
-        def dfs(c):
-          
-          if c in visited:
-            return False
-          
-          if preq[c] == [] :
+        def dfs(course, visited = set()):
+            if course in visited:
+                return False
+            if not graph[course]:
+                return True
+            
+            visited.add(course)
+            for neigh in graph[course]:
+                if not dfs(neigh, visited):
+                    return False
+            
+            visited.remove(course)
+            graph[course] = []
             return True
-          
-          visited.add(c)
-          for i in preq[c]:
-            if not dfs(i): return False
             
-          visited.remove(c)
-          preq[c] = []
-          
-          return True
         
-        
-        
-        for i in range(numCourses):
-          
-          if not dfs(i): 
-            return False
-          
+        for course in graph:
+            if not dfs(course):
+                return False
+            
         return True
-            
-            
-          
+    
         
