@@ -7,15 +7,17 @@ class Solution:
             graph[i].append(j)
         
         
-        def dfs(course, visited = set()):
-            if not graph[course]:
-                return True
+        def dfs(course, visited):
+            print(course, visited)
+            
             if course in visited:
                 return False
             
-            visited.add(course)
+            if not graph[course]:
+                return True
+            
             for neigh in graph[course]:
-                if not dfs(neigh):
+                if not dfs(neigh, set(list(visited) + [course]) ):
                     return False
             
             graph[course] = []
@@ -23,7 +25,7 @@ class Solution:
             
         
         for course in graph:
-            if not dfs(course):
+            if not dfs(course, set()):
                 return False
             
         return True
