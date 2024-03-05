@@ -1,28 +1,35 @@
 class Solution:
     def numBusesToDestination(self, routes: List[List[int]], source: int, target: int) -> int:
-        if source == target:
+        
+        if source==target:
             return 0
-
+        
         graph = defaultdict(set)
         for i, route in enumerate(routes):
             for stop in route:
                 graph[stop].add(i)
-
-        visited_stops = set([source])
-        visited_routes = set()
-        queue = deque([(source, 0)])  # (current stop, number of buses taken)
-
-        while queue:
-            current_stop, buses_taken = queue.popleft()
-            if current_stop == target:
-                return buses_taken
-
-            for route_i in graph[current_stop]:
-                if route_i not in visited_routes:
-                    visited_routes.add(route_i)
-                    for stop in routes[route_i]:
-                        if stop not in visited_stops:
-                            visited_stops.add(stop)
-                            queue.append((stop, buses_taken + 1))
-
-        return -1  # If no path exists
+        
+        queue = deque([(source, 0)])
+        v_stop = set()
+        v_bus = set()
+        
+        while(queue):
+            stop, busNum = queue.popleft()
+            
+            if stop==target:
+                return busNum
+                
+            for bus in graph[stop]:
+                if bus not in v_bus:
+                    v_bus.add(bus)
+                    for stop in routes[bus]:
+                        if stop not in v_stop:
+                            v_stop.add(stop)
+                            queue.append((stop, busNum+1))
+                            
+        
+        return -1
+            
+        
+                
+            
