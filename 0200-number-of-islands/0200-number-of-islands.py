@@ -1,31 +1,21 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
         
-        rmax, cmax = len(grid), len(grid[0])
+        m,n  = len(grid), len(grid[0]) 
+        
+        ans = 0
         visited = set()
-        count = 0
         
-        for i in range(rmax):
-            for j in range(cmax):
-                if grid[i][j] == '1' and (i,j) not in visited:
-                    visited.add((i,j))
-                    count += 1
-                    self.explore(grid, i,j, rmax, cmax, visited)
-                    
-        return count
-                    
-    def explore(self, grid, i, j, rmax, cmax, visited):
-        pos = [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]
+        def dfs(r,c):
+            visited.add((r,c))
+            for i,j in [[0,1],[0,-1], [1,0], [-1,0]]:
+                row, col=r+i, c+j
+                if 0<=row<m and 0<=col<n and grid[row][col]=="1" and (row, col) not in visited:
+                    dfs(row,col)
         
-        for p in pos:
-            if self.check(p[0], p[1], rmax, cmax) and p not in visited and grid[p[0]][p[1]]=='1':
-                visited.add(p)
-                self.explore(grid, p[0], p[1], rmax, cmax, visited)
-        
-    
-    def check(self, r, c, rmax, cmax):
-        if r>=0 and r<rmax and c>=0 and c<cmax:
-            return True
-        else:
-            return False
-        
+        for i in range(m):
+            for j in range(n):
+                if (i,j) not in visited and grid[i][j]=="1":
+                    ans+=1
+                    dfs(i,j)
+        return ans
