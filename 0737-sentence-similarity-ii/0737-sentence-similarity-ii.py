@@ -1,31 +1,35 @@
-from collections import defaultdict
-
 class Solution:
     def areSentencesSimilarTwo(self, sentence1: List[str], sentence2: List[str], similarPairs: List[List[str]]) -> bool:
         
-        if len(sentence1) != len(sentence2):
+        l1, l2 = len(sentence1), len(sentence2)
+        
+        if l1 != l2:
             return False
         
         graph = defaultdict(list)
         
-        for i, j in similarPairs:
+        for i,j in similarPairs:
             graph[i].append(j)
             graph[j].append(i)
         
-        def dfs(w, target, visited):
-            if w == target:
+        visit = set()
+        def dfs(w, target):
+            if w==target:
                 return True
-            visited.add(w)
+            visit.add(w)
             for neigh in graph[w]:
-                if neigh not in visited:
-                    if dfs(neigh, target, visited):
+                if neigh not in visit:
+                    if dfs(neigh, target):
+                        visit.remove(w)
                         return True
+                        
+            visit.remove(w)
             return False
         
-        for i in range(len(sentence1)):
-            if sentence1[i] != sentence2[i]:
-                visited = set()  # Use a new visit set for each DFS call
-                if not dfs(sentence1[i], sentence2[i], visited):
-                    return False
+        
+        for i in range(l1):
+            if sentence1[i]!=sentence2[i] and not dfs(sentence1[i], sentence2[i]):
+                return False
         
         return True
+        
