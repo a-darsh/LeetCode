@@ -2,30 +2,27 @@ class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         
         graph = {i:[] for i in range(numCourses)}
-        
         for i,j in prerequisites:
             graph[i].append(j)
+            
         
-        visited = set()
-        def dfs(course):
-            
-            if course in visited:
+        cycle = set()
+        def dfs(crs):
+            if crs in cycle:
                 return False
-            
-            if not graph[course]:
+            if not graph[crs]:
                 return True
             
-            visited.add(course)
-            for neigh in graph[course]:
+            cycle.add(crs)
+            for neigh in graph[crs]:
                 if not dfs(neigh):
                     return False
-            visited.remove(course)
-            graph[course] = []
+            cycle.remove(crs)
+            graph[crs] = []
             return True
-            
         
-        for course in graph:
-            if not dfs(course):
+        for crs in graph:
+            if not dfs(crs):
                 return False
-            
-        return True        
+        
+        return True
