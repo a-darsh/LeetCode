@@ -5,27 +5,27 @@ class Solution:
         for i,j in prerequisites:
             graph[i].append(j)
         
-        ans = []
         visit, cycle = set(), set()
-        def dfs(course):
-            if course in cycle:
+        ans = []
+        def dfs(crs):
+            if crs in cycle:
                 return False
-            if course in visit:
+            if crs in visit:
                 return True
             
-            cycle.add(course)
-            for neigh in graph[course]:
+            cycle.add(crs)
+            for neigh in graph[crs]:
                 if not dfs(neigh):
                     return False
+            cycle.remove(crs)
             
-            cycle.remove(course)
-            visit.add(course)
-            ans.append(course)
+            ans.append(crs)
+            visit.add(crs)
             return True
         
-        for course in graph:
-            if not dfs(course):
+        
+        for crs in graph:
+            if not dfs(crs):
                 return []
         
         return ans
-        
