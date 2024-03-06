@@ -1,40 +1,31 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         
+        graph = {i:[] for i in range(numCourses)}
+        for i,j in prerequisites:
+            graph[i].append(j)
         
-        preq = {i:[] for i in range(numCourses)}
-        
-        for l in prerequisites:
-          preq[l[0]].append(l[1])
-          
-        courseOrder = []
-        
-        if not prerequisites:
-          courseOrder = [i for i in range(numCourses)]
-        
-        visited = set()
-        
-        def dfs(c):
-          
-          if c in visited:
-            return False
-          
-          if preq[c] == []:
-            if c not in courseOrder:
-              courseOrder.append(c)
-            return True
-          
-          visited.add(c)
-          for i in preq[c]:
-            if not dfs(i): return False
+        ans = []
+        visit, cycle = set(), set()
+        def dfs(course):
+            if course in cycle:
+                return False
+            if course in visit:
+                return True
             
-          visited.remove(c)
-          preq[c] = []
-          if c not in courseOrder:
-            courseOrder.append(c)
-          return True
-                 
-        for i in range(numCourses):
-          if not dfs(i) : return []
-          
-        return courseOrder
+            cycle.add(course)
+            for neigh in graph[course]:
+                if not dfs(neigh):
+                    return False
+            
+            cycle.remove(course)
+            visit.add(course)
+            ans.append(course)
+            return True
+        
+        for course in graph:
+            if not dfs(course):
+                return []
+        
+        return ans
+        
