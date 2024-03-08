@@ -1,18 +1,14 @@
 class Solution:
     def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
         
-        time = []
-        for i,j in intervals:
-            time.append([i,'s'])
-            time.append([j,'e'])
+        intervals.sort(key=lambda x:x[0])
         
-        time.sort()
-        
-        for t in range(0, len(time)-1):
-            if time[t][1]==time[t+1][1]:
+        for i in range(0, len(intervals)-1):
+            if intervals[i][1] >intervals[i+1][0]:
                 return False
         
         return True
+        
         
         
         
