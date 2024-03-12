@@ -9,24 +9,21 @@ class Solution:
             pmap[p[idx]] = pmap.get(p[idx],0) + 1
             smap[s[idx]] = smap.get(s[idx],0) + 1
             
-        ans = []
-        i,j = 0, len(p)-1
-        while(j<len(s)):
-            flag=True
-            for c in pmap:
-                if pmap[c]!=smap.get(c,0):
-                    flag = False
-                    break
-            if flag:
-                ans.append(i)
-            smap[s[i]] -= 1
-            i+=1
-            j+=1
-            if j==len(s):
-                break
-            smap[s[j]] = smap.get(s[j], 0) + 1
-
+        ans = [0] if pmap==smap else []
+        l = 0
+        for i in range(len(p), len(s)):
+            
+            smap[s[i]]  = smap.get(s[i], 0) + 1
+            smap[s[l]] -= 1
+            if smap[s[l]]==0:
+                smap.pop(s[l])
+            
+            l+=1
+            
+            if smap==pmap:
+                ans.append(l)
         
         return ans
+        
         
         
