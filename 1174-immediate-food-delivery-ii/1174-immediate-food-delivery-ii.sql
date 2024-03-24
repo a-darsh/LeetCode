@@ -1,25 +1,16 @@
-WITH FirstOrders AS (
-    SELECT
-        customer_id,
-        MIN(order_date) AS first_order_date
-    FROM
-        Delivery
-    GROUP BY
-        customer_id
+with first_order as (
+
+    select customer_id, min(order_date) as order_date from Delivery group by customer_id
 ),
-ImmediateFirstOrders AS (
-    SELECT
-        f.customer_id
-    FROM
-        FirstOrders f
-    JOIN
-        Delivery d ON f.customer_id = d.customer_id AND f.first_order_date = d.order_date
-    WHERE
-        d.order_date = d.customer_pref_delivery_date
+
+immediate_order as (
+
+    select f.customer_id
+    from first_order as f join Delivery as d 
+    on f.order_date=d.order_date and f.customer_id=d.customer_id
+    where d.order_date=d.customer_pref_delivery_date
+
 )
-SELECT
-    ROUND((COUNT(DISTINCT ifo.customer_id) * 100.0) / COUNT(DISTINCT fo.customer_id), 2) AS immediate_percentage
-FROM
-    FirstOrders fo
-LEFT JOIN
-    ImmediateFirstOrders ifo ON fo.customer_id = ifo.customer_id
+
+select round((count(m.customer_id)/count(f.customer_id))*100,2) as immediate_percentage
+from first_order as f left join immediate_order as m on f.customer_id=m.customer_id
