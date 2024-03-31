@@ -1,11 +1,14 @@
 class Solution:
     def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
-        
-        intervals.sort(key=lambda x:x[0])
-        
-        for i in range(0, len(intervals)-1):
-            if intervals[i][1] >intervals[i+1][0]:
+                
+        intervals = sorted(intervals)
+        i = 0
+        while(i<len(intervals)-1):
+            curMeeting = intervals[i]
+            nxtMeeting = intervals[i+1]
+            if curMeeting[1]>nxtMeeting[0]:
                 return False
+            i+=1
         
         return True
         
