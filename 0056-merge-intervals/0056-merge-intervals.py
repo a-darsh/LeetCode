@@ -5,9 +5,9 @@ class Solution:
         merged = []
         for interval in intervals:
             if merged and merged[-1][1]>=interval[0]:
-                newMerge = [merged[-1][0],max(merged[-1][1],interval[1])]
+                newInterval = [merged[-1][0], max(merged[-1][1], interval[1])]
                 merged.pop()
-                merged.append(newMerge)
+                merged.append(newInterval)
             else:
                 merged.append(interval)
         
