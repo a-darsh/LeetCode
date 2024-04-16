@@ -3,21 +3,17 @@ import heapq
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
         
-        intervals = sorted(intervals)
+        intervals.sort()
         occupied = []
-        
-        #adding first meeting
-        heapq.heappush(occupied, intervals[0][1])
-        
-        for meeting in intervals[1:]:
-            if meeting[0]>=occupied[0]:
+        count=0
+        for interval in intervals:
+            if occupied and occupied[0]<=interval[0]:
                 heapq.heappop(occupied)
-                heapq.heappush(occupied, meeting[1])
+                heapq.heappush(occupied, interval[1])
             else:
-                heapq.heappush(occupied, meeting[1])
-        
-        return len(occupied)
-                
+                heapq.heappush(occupied, interval[1])
+                count+=1
+        return count
         
         
         
