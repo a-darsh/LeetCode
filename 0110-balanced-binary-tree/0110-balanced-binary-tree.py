@@ -7,18 +7,16 @@
 class Solution:
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
         
-        def dfs(root):
-            
-            if not root:
-                return [True, 0]
-            
-            left, right = dfs(root.left), dfs(root.right)
-            balanced = left[0] and right[0] and abs(left[1]-right[1])<=1
-            
-            return [balanced, 1+max(left[1], right[1])]
+        def dfs(node, height):
+            if not node:
+                return (True, 0)
+            lc,lh = dfs(node.left, height+1)
+            rc,rh = dfs(node.right, height+1)
+            if lc and rc and abs(lh-rh)<=1:
+                return (True, 1+max(lh,rh))
+            else:
+                return (False, 1+max(lh,rh))
         
-        return dfs(root)[0]
-    
-    
-        
-        
+        return dfs(root, 0)[0]
+            
+            
