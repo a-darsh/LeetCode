@@ -1,9 +1,11 @@
 class Solution:
-    def majorityElement(self, nums: List[int]) -> int:
-        req = len(nums)//2
-        hmap = {}
-        for i in range(0, len(nums)):
-            hmap[nums[i]] = hmap.get(nums[i],0)+1
-            if hmap[nums[i]]>req:
-                return nums[i]
-            
+    def majorityElement(self, nums):
+        count = 0
+        candidate = None
+
+        for num in nums:
+            if count == 0:
+                candidate = num
+            count += 1 if num == candidate else -1
+
+        return candidate
