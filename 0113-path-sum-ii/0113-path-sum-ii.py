@@ -11,7 +11,7 @@ class Solution:
         
         def dfs(root, target, path=[]):
             if not root:
-                return path
+                return
             if root.val==target and not root.left and not root.right:
                 res.append(path+[root.val])
                 return
