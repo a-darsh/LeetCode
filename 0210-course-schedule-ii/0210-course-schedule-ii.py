@@ -1,31 +1,27 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         
-        graph = {i:[] for i in range(numCourses)}
+        graph = defaultdict(list)
         for i,j in prerequisites:
             graph[i].append(j)
-        
+            
         visit, cycle = set(), set()
-        ans = []
-        def dfs(crs):
-            if crs in cycle:
+        res = []
+        def dfs(c):
+            if c in cycle:
                 return False
-            if crs in visit:
+            if c in visit:
                 return True
-            
-            cycle.add(crs)
-            for neigh in graph[crs]:
-                if not dfs(neigh):
+            cycle.add(c)
+            for neig in graph[c]:
+                if not dfs(neig):
                     return False
-            cycle.remove(crs)
-            
-            ans.append(crs)
-            visit.add(crs)
+            cycle.remove(c)
+            visit.add(c)
+            res.append(c)
             return True
         
-        
-        for crs in graph:
-            if not dfs(crs):
+        for i in range(numCourses):
+            if not dfs(i):
                 return []
-        
-        return ans
+        return res
