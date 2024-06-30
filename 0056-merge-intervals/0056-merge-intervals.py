@@ -3,17 +3,9 @@ class Solution:
         
         intervals.sort()
         merged = []
-        for interval in intervals:
-            if merged and merged[-1][1]>=interval[0]:
-                newInterval = [merged[-1][0], max(merged[-1][1], interval[1])]
-                merged.pop()
-                merged.append(newInterval)
+        for i in intervals:
+            if merged and merged[-1][1]>=i[0]:
+                merged[-1][1] = max(merged[-1][1], i[1])
             else:
-                merged.append(interval)
-        
+                merged.append(i)
         return merged
-        
-        
-        
-        
-        
