@@ -7,3 +7,4 @@ class Solution:
             hmap[n]=1
         return False
         
+        # tc O(n), mc O(n)
