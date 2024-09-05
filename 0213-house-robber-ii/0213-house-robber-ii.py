@@ -1,22 +1,12 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
+    
         
-        def robber(num):
-          
-          rob1, rob2 = 0,0
-          
-          for n in num:
-            temp = max(rob1+n, rob2)
-            rob1 = rob2
-            rob2 = temp
-            
-          return rob2
+        def robSimple(nums):
+            prev0, prev1 = 0,0
+            for n in nums:
+                temp = max(n+prev0, prev1)
+                prev0, prev1 = prev1, temp
+            return prev1
         
-        return max(nums[0], robber(nums[:-1]), robber(nums[1:]))
-      
-      
-            
-          
-          
-        
-          
+        return max(nums[0],robSimple(nums[1:]), robSimple(nums[:-1]))
