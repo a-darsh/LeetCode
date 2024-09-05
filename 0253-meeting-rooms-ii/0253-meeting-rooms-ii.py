@@ -1,22 +1,18 @@
 import heapq
-
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
-        
         intervals.sort()
-        maxRoom = float("-inf")
-        curEnds = []
+        endtimes = []
         size = 0
+        ans = 0
         for meet in intervals:
-            while curEnds and curEnds[0] <= meet[0]:
-                heapq.heappop(curEnds)
+            while endtimes and endtimes[0]<=meet[0]:
+                heappop(endtimes)
                 size-=1
-            heapq.heappush(curEnds, meet[1])
+            heappush(endtimes, meet[1])
             size+=1
-            maxRoom = max(maxRoom, size)
-        return maxRoom
-        
+            ans = max(size, ans)
+        return ans
             
         
-            
-            
+        
