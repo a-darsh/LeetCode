@@ -1,41 +1,26 @@
 class Solution:
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
         
-        graph = {}
-        
-        for i, j in edges:
-            
-            if i not in graph: graph[i] = []
-            if j not in graph: graph[j] = []
-            
-            graph[i].append(j)
-            graph[j].append(i)
-        
-        
-        
         visited = set()
+        graph = defaultdict(list)
+        comp = 0
         
-        #checking for single nodes, not present in edges
-        if len(graph)!=n:
-            count = n-len(graph)
-        else:
-            count = 0
-        
-        for node in graph:
+        for n1,n2 in edges:
+            graph[n1].append(n2)
+            graph[n2].append(n1)
+
+        def dfs(node):
             if node not in visited:
-                count += 1
                 visited.add(node)
-                self.explore(graph, node, visited)
+                for nei in graph[node]:
+                    dfs(nei)
+            return
         
-        return count
+        for i in range(n):
+            if i not in visited:
+                comp+=1
+                dfs(i)
         
-    def explore(self, graph, node, visited):
-
-        for nei in graph[node]:
-            if nei not in visited:
-                visited.add(nei)
-                self.explore(graph, nei, visited)
-
-                    
-                                    
+        return comp
         
+                
