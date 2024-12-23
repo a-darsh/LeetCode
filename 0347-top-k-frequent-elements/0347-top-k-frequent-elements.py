@@ -1,16 +1,12 @@
+
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         
-        hmap = defaultdict(int)
-        for n in nums:
-            hmap[n]+=1
+        if k==len(nums):
+            return nums
         
-        maxHeap = []
-        for key,val in hmap.items():
-            heapq.heappush(maxHeap, (-val, key))
+        count = Counter(nums)
+        return heapq.nlargest(k, count.keys(), count.get)
         
-        ans = []
-        for i in range(k):
-            ans.append(heapq.heappop(maxHeap)[1])
         
-        return ans
+        
