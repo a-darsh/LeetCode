@@ -8,7 +8,9 @@ class Solution:
             if target==ele:
                 return True
             elif target<ele:
-                r-=1
+                r=mid-1
             else:
-                l+=1
+                l=mid+1
         return False
+
+        # O(log(m*n)), O(1)
