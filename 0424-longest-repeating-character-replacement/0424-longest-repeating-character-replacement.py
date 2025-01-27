@@ -1,16 +1,21 @@
 class Solution:
     def characterReplacement(self, s: str, k: int) -> int:
-        ans=0
-        freqMap={}
-        l,r = 0,0 
-        while r<len(s):
-            freqMap[s[r]] = 1 + freqMap.get(s[r],0)
-            if r-l+1 - max(freqMap.values()) <= k:
-                if r-l+1 > ans:
-                    ans = r-l+1
+        l =  0
+        freqList = [0]*26
+        res = 0
+        maxfreq = 0
+        for r in range(len(s)):
+            freqList[ord(s[r])-ord('A')]+=1
+            maxfreq = max(maxfreq, freqList[ord(s[r])-ord('A')])
+            windLen = r-l+1
+            replaceLen = windLen - maxfreq
+            if replaceLen<=k:
+                res = max(res, windLen)
             else:
-                freqMap[s[l]]-=1
+                freqList[ord(s[l])-ord('A')]-=1
                 l+=1
-            r+=1
-        
-        return ans
+        return res
+
+
+
+
