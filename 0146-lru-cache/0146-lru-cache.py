@@ -1,65 +1,62 @@
-class LinkNode:
+class ListNode:
     def __init__(self, key, value):
         self.key = key
-        self.value = value
-        self.next = None
+        self.val = value
         self.prev = None
+        self.next = None
 
 class LRUCache:
 
     def __init__(self, capacity: int):
-        self.capacity = capacity
-        self.size = 0
-        self.head = LinkNode(-1,-1)
-        self.tail = LinkNode(-1, -1)
+        self.cap = capacity
+        self.cache = {}
+        self.head = ListNode(-1,-1)
+        self.tail = ListNode(-1,-1)
         self.head.next = self.tail
         self.tail.prev = self.head
-        self.cache = {}
     
     def add(self, node):
-        node.prev = self.head
-        node.next = self.head.next
-        node.next.prev = node
-        self.head.next = node
+        lastNode = self.tail.prev
+        lastNode.next  = node
+        node.prev = lastNode
+        node.next = self.tail
+        self.tail.prev = node
+        self.cache[node.key] = node
     
     def remove(self, node):
-        node.prev.next = node.next
-        node.next.prev = node.prev
+        prevNode = node.prev
+        nextNode = node.next
+        prevNode.next = node.next
+        nextNode.prev = prevNode
+        del self.cache[node.key]
     
-    
-    def get(self, key: int) -> int:
-        if key not in self.cache:
-            return -1
-        
-        node = self.cache[key]
-        self.remove(node)
-        self.add(node)
-        
-        return node.value
-        
+    def removeLru(self):
+        lru = self.head.next
+        self.remove(lru)
 
-    def put(self, key: int, value: int) -> None:
-        
+    def get(self, key: int) -> int:
         if key in self.cache:
             node = self.cache[key]
             self.remove(node)
-            node.value = value
-            self.cache[key] = node
             self.add(node)
-        
-        elif self.size<self.capacity:
-            node = LinkNode(key, value)
-            self.cache[key] = node
-            self.add(node)
-            self.size+=1
-        
+            return node.val
         else:
-            lru = self.tail.prev
-            self.remove(lru)
-            del self.cache[lru.key]
-            node = LinkNode(key, value)
-            self.cache[key] = node
+            return -1
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.cache:
+            node = self.cache[key]
+            self.remove(node)
+            node.val = value
             self.add(node)
+
+        else:
+            if len(self.cache)>=self.cap:
+                self.removeLru()
+            node = ListNode(key, value)
+            self.add(node)
+
+        
         
 
 
