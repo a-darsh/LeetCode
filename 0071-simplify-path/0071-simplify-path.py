@@ -4,9 +4,11 @@ class Solution:
         for p in path.split('/'):
             if p=='.' or not p:
                 continue
-            elif p=="..":
+            elif p=='..':
                 if stack:
                     stack.pop()
             else:
                 stack.append(p)
         return '/'+'/'.join(stack)
+
+        #O(n), O(n)
