@@ -1,7 +1,7 @@
-class ListNode:
+class LinkedList:
     def __init__(self, key, value):
-        self.key = key
         self.val = value
+        self.key = key
         self.prev = None
         self.next = None
 
@@ -9,55 +9,54 @@ class LRUCache:
 
     def __init__(self, capacity: int):
         self.cap = capacity
-        self.cache = {}
-        self.head = ListNode(-1,-1)
-        self.tail = ListNode(-1,-1)
+        self.head = LinkedList(-1,-1)
+        self.tail = LinkedList(-1,-1)
         self.head.next = self.tail
         self.tail.prev = self.head
+        self.lru = {}
     
     def add(self, node):
-        lastNode = self.tail.prev
-        lastNode.next  = node
-        node.prev = lastNode
+        prevLast = self.tail.prev
+        prevLast.next = node
+        node.prev = prevLast
         node.next = self.tail
         self.tail.prev = node
-        self.cache[node.key] = node
+        self.lru[node.key] = node
     
     def remove(self, node):
         prevNode = node.prev
         nextNode = node.next
-        prevNode.next = node.next
+        prevNode.next = nextNode
         nextNode.prev = prevNode
-        del self.cache[node.key]
+        del self.lru[node.key]
     
-    def removeLru(self):
-        lru = self.head.next
-        self.remove(lru)
+    def removeFirst(self):
+        self.remove(self.head.next)
 
     def get(self, key: int) -> int:
-        if key in self.cache:
-            node = self.cache[key]
+        if key in self.lru:
+            node = self.lru[key]
             self.remove(node)
             self.add(node)
             return node.val
         else:
             return -1
-
+        
     def put(self, key: int, value: int) -> None:
-        if key in self.cache:
-            node = self.cache[key]
+        if key in self.lru:
+            node = self.lru[key]
             self.remove(node)
             node.val = value
             self.add(node)
-
+            self.lru[key] = node
         else:
-            if len(self.cache)>=self.cap:
-                self.removeLru()
-            node = ListNode(key, value)
+            node = LinkedList(key, value)
+            if len(self.lru)==self.cap:
+                self.removeFirst()
             self.add(node)
+            self.lru[key] = node
 
-        
-        
+                        
 
 
 # Your LRUCache object will be instantiated and called as such:
