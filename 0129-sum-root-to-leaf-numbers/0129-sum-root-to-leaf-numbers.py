@@ -11,7 +11,7 @@ class Solution:
             nonlocal res
             if not node:
                 return
-            curSum = curSum*10+node.val
+            curSum = curSum*10 + node.val
             if not node.left and not node.right:
                 res+=curSum
                 return
@@ -19,5 +19,6 @@ class Solution:
             dfs(node.right, curSum)
         dfs(root, 0)
         return res
+        #O(N), O(N)
 
             
