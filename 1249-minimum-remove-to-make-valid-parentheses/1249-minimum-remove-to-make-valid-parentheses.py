@@ -1,21 +1,20 @@
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
         stack = []
-        removeIndx = set()
-        for i,c in enumerate(s):
-            if c not in '()':
-                continue
-            elif c == '(':
+        remove = set()
+        for i, c in enumerate(s):
+            if c=='(':
                 stack.append(i)
-            else:
-                if not stack:
-                    removeIndx.add(i)
-                else:
+            elif c==')':
+                if stack and s[stack[-1]]=='(':
                     stack.pop()
-        removeIndx = removeIndx.union(set(stack))
-        res = []
+                else:
+                    remove.add(i)
+        remove = remove.union(set(stack))
+        temp = []
         for i,c in enumerate(s):
-            if i not in removeIndx:
-                res.append(c)
-        return ''.join(res)
-        # O(N), O(N)
+            if i not in remove:
+                temp.append(s[i])
+        return ''.join(temp)
+
+        #O(N), O(N)
