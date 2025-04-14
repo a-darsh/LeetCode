@@ -5,6 +5,6 @@ class Solution:
             heapq.heappush(heap, n)
             if len(heap)>k:
                 heapq.heappop(heap)
-        return heap[0]
-
-        #O(NlogN), O(N)
+        return heapq.heappop(heap)
+    
+    #O(Nogk), O(k)
