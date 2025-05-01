@@ -6,7 +6,4 @@ class Solution:
             if heights[i]>maxH:
                 res.append(i)
             maxH = max(maxH, heights[i])
-        res.reverse()
-        return res
-
-        #O(N), O(N)
+        return res[::-1]
