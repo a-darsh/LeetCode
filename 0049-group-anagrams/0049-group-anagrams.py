@@ -6,5 +6,5 @@ class Solution:
             for c in w:
                 cnt[ord(c)-ord('a')]+=1
             groupMap[tuple(cnt)].append(w)
-        return [groupMap[g] for g in groupMap]
+        return list(groupMap.values())
         #O(NK), O(NK)
