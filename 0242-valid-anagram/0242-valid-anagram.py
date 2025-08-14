@@ -1,11 +1,14 @@
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        l1, l2 = len(s), len(t)
-        if l1!=l2:
+        if len(s)!=len(t):
             return False
-        counter1 = Counter(s)
-        counter2 = Counter(t)
-        for c in counter1:
-            if c not in counter2 or counter1[c]!=counter2[c]:
+        counter = [0]*26
+        for c in s:
+            counter[ord(c)-ord('a')]+=1
+        for c in t:
+            idx = ord(c)-ord('a')
+            counter[idx]-=1
+            if counter[idx]<0:
                 return False
         return True
+        #O(N), O(1)
