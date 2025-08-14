@@ -1,9 +1,10 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         groupMap = defaultdict(list)
-        for word in strs:
-            groupMap[''.join(sorted(word))].append(word)
-        res = []
-        for group in groupMap:
-            res.append(groupMap[group])
-        return res
+        for w in strs:
+            cnt = [0]*26
+            for c in w:
+                cnt[ord(c)-ord('a')]+=1
+            groupMap[tuple(cnt)].append(w)
+        return [groupMap[g] for g in groupMap]
+        #O(NK), O(NK)
