@@ -1,17 +1,9 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        
-        hmap = defaultdict(list)
-        for s in strs:
-            hmap[tuple(sorted(s))].append(s)
-        
-        ans = []
-        for k,v in hmap.items():
-            ans.append(v)
-        
-        return ans
-    
-    #TC: nklog(k), SC: n
-            
-            
-        
+        groupMap = defaultdict(list)
+        for word in strs:
+            groupMap[''.join(sorted(word))].append(word)
+        res = []
+        for group in groupMap:
+            res.append(groupMap[group])
+        return res
