@@ -1,12 +1,11 @@
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        maxProfit  = 0
-        l = 0
-        for r, p in enumerate(prices):
-            if p>prices[l]:
-                maxProfit = max(maxProfit, p-prices[l])
+        res = 0
+        buy = prices[0]
+        for price in prices:
+            if price > buy:
+                res = max(res, price - buy)
             else:
-                l=r
-        return maxProfit
-
-        #O(N), O(1)
+                buy = price
+        return res
+        # O(N), O(1)
