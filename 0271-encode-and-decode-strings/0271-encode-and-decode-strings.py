@@ -19,7 +19,7 @@ class Codec:
             res.append(s[j:j+L])
             i=j+L
         return res
-
+    #O(N), O(N)
             
 
         
