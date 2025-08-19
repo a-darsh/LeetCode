@@ -10,3 +10,4 @@ class Solution:
             else:
                 i+=1
         return []
+        #O(N), O(1)
