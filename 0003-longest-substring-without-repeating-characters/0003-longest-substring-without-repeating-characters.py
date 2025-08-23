@@ -10,4 +10,4 @@ class Solution:
             cur_seq.add(s[right])
             max_len = max(max_len, right-left+1)
         return max_len
-        #O(N, O(1)
+        #O(N), O(1)
