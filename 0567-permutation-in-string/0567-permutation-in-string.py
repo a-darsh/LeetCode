@@ -1,26 +1,29 @@
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
-        
-        if len(s1)>len(s2):
+        n1,n2 = len(s1),len(s2)
+        if n1>n2:
             return False
+
+        need, window = [0]*26, [0]*26
+        base = ord('a')
+        for c in s1:
+            need[ord(c)-base]+=1
         
-        count1, count2 = {}, {}
-        for i in range(len(s1)):
-            count1[s1[i]] = count1.get(s1[i],0)+1
-            count2[s2[i]] = count2.get(s2[i],0)+1
-        
-        if count1==count2:
+        # First window check
+        left, right = 0, n1
+        for c in s2[left:right]:
+            window[ord(c)-base]+=1
+        if need==window:
             return True
         
-        start = 0
-        for i in range(len(s1), len(s2)):
-            count2[s2[i]] = count2.get(s2[i],0)+1
-            count2[s2[start]] -= 1
-            if count2[s2[start]]==0:
-                count2.pop(s2[start])
-            start+=1
-            if count2==count1:
+        # Sliding window
+        while right<n2:
+            window[ord(s2[left])-base]-=1
+            window[ord(s2[right])-base]+=1
+            left+=1
+            right+=1
+            if need==window:
                 return True
-        
         return False
-        
+
+        # O(n1+n2), O(1)
